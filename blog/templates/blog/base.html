@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="description" content="وبلاگ اموزشی جنگو">
+	<meta name="author" content="Alireza">
+	<meta name="keyword" content="">
+	<!-- Shareable -->
+	<meta property="og:title" content="" />
+	<meta property="og:type" content="" />
+    <title>{% block title %}{% endblock title %}</title>
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="{% static 'scripts/bootstrap/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap-rtl.min.css' %}">
+	<!-- Icons -->
+	<link rel="stylesheet" href="{% static 'scripts/ionicons/css/ionicons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'scripts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'scripts/fontawesome-5.0.8/css/fontawesome-all.min.css' %}">
+	<!-- Toast -->
+	<link rel="stylesheet" href="{% static 'scripts/toast/jquery.toast.min.css' %}">
+	<!-- OwlCarousel -->
+	<link rel="stylesheet" href="{% static 'scripts/owlcarousel/dist/assets/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'scripts/owlcarousel/dist/assets/owl.theme.default.min.css' %}">
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="{% static 'scripts/magnific-popup/dist/magnific-popup.css' %}">
+	<link rel="stylesheet" href="{% static 'scripts/sweetalert/dist/sweetalert.css' %}">
+	<!-- Custom style -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/skins/all.css' %}">
+	<link rel="stylesheet" href="{% static 'css/demo.css' %}">
+</head>
+
+
+<body class="skin-orange">
+	<header class="primary">
+		<div class="firstbar">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-12 col-sm-12">
+
+					</div>
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<form action="{% url 'blog:post_search' %}" class="search" autocomplete="off" method="GET">
+							<div class="form-group">
+								<div class="input-group">
+                                    <label>
+                                        <input type="text" name="q" class="form-control"
+                                            placeholder="جستجوی عبارت مورد نظر ...">
+                                    </label>
+                                    <div class="input-group-btn">
+										<button class="btn btn-primary"></button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Start nav -->
+		<nav class="menu">
+			<div class="container">
+				<div class="brand">
+
+				</div>
+				<div class="mobile-toggle">
+					<a href="#" data-toggle="menu" data-target="#menu-list"><i class="ion-navicon-round"></i></a>
+				</div>
+				<div class="mobile-toggle">
+					<a href="#" data-toggle="sidebar" data-target="#sidebar"><i class="ion-ios-arrow-left"></i></a>
+				</div>
+				<div id="menu-list">
+					<ul class="nav-list">
+						<li><a href="index.html">خانه</a></li>
+						<li class="dropdown magz-dropdown">
+							<a href="#">صفحات <i class="ion-ios-arrow-left"></i></a>
+							<ul class="dropdown-menu">
+								<li><a href="index.html">خانه</a></li>
+								<li><a href="#">عناصر طراحی</a></li>
+								<li><a href="#">صفحه دسته بندی</a></li>
+								<li><a href="#">صفحه خبر</a></li>
+								<li><a href="#">صفحه درباره ما</a></li>
+							</ul>
+						</li>
+
+						<li class="dropdown magz-dropdown"><a href="#">منوی کاربری <i
+									class="ion-ios-arrow-left"></i></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><i class="icon fa fa-user"></i> پنل کاربری</a></li>
+								<li><a href="#"><i class="icon fa fa-heart"></i> علاقه مندی ها</a></li>
+								<li><a href="#"><i class="icon fa fa-comment"></i> نظرات</a></li>
+								<li><a href="#"><i class="icon fa fa-key"></i> تغییر رمز عبور</a></li>
+								<li><a href="#"><i class="icon fa fa-gears"></i> تنظیمات</a></li>
+								<li class="divider"></li>
+								<li><a href="#"><i class="icon ion-log-out mt-0"></i> خروج از حساب کاربری</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- End nav -->
+	</header>
+
+    {% block body %}
+
+    {% endblock body %}
+
+    <!-- Start footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+					<div class="block">
+						<h1 class="block-title">درباره ما</h1>
+						<div class="block-body">
+							<p class="brand-description">
+								لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم لورم ایپسوم متن ساختگی با تولید سادگی نامفهوملورم ایپسوم متن ساختگی با تولید سادگی نامفهوم .
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="copyright">تمام حقوق محفوظ است.
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<!-- JS -->
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/jquery.migrate.js' %}"></script>
+	<script src="{% static 'scripts/bootstrap/bootstrap.min.js' %}"></script>
+	<script>
+		var $target_end = $(".best-of-the-week");
+	</script>
+	<script src="{% static 'scripts/jquery-number/jquery.number.min.js'  %}"></script>
+	<script src="{% static 'scripts/owlcarousel/dist/owl.carousel.min.js'  %}"></script>
+	<script src="{% static 'scripts/magnific-popup/dist/jquery.magnific-popup.min.js'  %}"></script>
+	<script src="{% static 'scripts/easescroll/jquery.easeScroll.js'  %}"></script>
+	<script src="{% static 'scripts/sweetalert/dist/sweetalert.min.js'  %}"></script>
+	<script src="{% static 'scripts/toast/jquery.toast.min.js'  %}"></script>
+	<script src="{% static 'js/demo.js'  %}"></script>
+	<script src="{% static 'js/e-magz.js'  %}"></script>
+</body>
+</html>
