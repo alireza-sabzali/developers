@@ -14,7 +14,7 @@ class Post(models.Model):
     owner       = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     category    = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
     title       = models.CharField(max_length=100, blank=False, null=False)
-    slug        = models.SlugField(max_length=100, unique=True)
+    slug        = models.SlugField(max_length=100, unique=True, allow_unicode=True)
     text        = models.TextField()
     image       = models.ImageField(upload_to='post-images')
     create_date = models.DateField(auto_now_add=True)
