@@ -21,7 +21,7 @@ class Post(models.Model):
     update_time = models.DateField(auto_now=True)
 
     def get_absolute_url(self):
-        return reverse('blog:post-detail', args=[self.slug])
+        return reverse('blog:post-detail', args=[self.id])
 
     class Meta:
         ordering = ('-create_date', )

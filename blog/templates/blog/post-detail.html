@@ -8,32 +8,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 col-lg-4 sidebar">
-                    {% for newest in posts %}
-                        <aside>
-						<h1 class="aside-title">پست های جدید</h1>
-						<div class="aside-body">
-							<div class="line"></div>
-							<article class="article-mini">
-								<div class="inner">
-									<figure>
-										<a href="{{ newest.get_absolute_url }}">
-											<img src="{{ newest.image.url }}" alt="{{ newest.title }}">
-										</a>
-									</figure>
-									<div class="padding">
-										<h1><a href="{{ newest.get_absolute_url }}">
-                                            {{ newest.title }}
-                                        </a>
-										</h1>
-									</div>
-								</div>
-							</article>
-
-						</div>
-					</aside>
-                    {% endfor %}
-
-
 				</div>
 				<div class="col-md-12 col-lg-8 float-right">
 					<ol class="breadcrumb">
@@ -66,42 +40,51 @@
 					</article>
 
 					<div class="comments my-5">
-						<h2 class="title">نظرات <a href="#">یک دیدگاه جدید ارسال کنید.</a></h2>
+						<h2 class="title">نظرات <a href="#comment_new">یک دیدگاه جدید ارسال کنید.</a></h2>
 						<div class="comment-list">
 							<div class="item">
 								<div class="user">
+                                {% if comments %}
                                     {% for comment in comments %}
-                                        <div class="details">
-                                            <h5 class="name">{{ comment.user.username }}</h5>
-                                            <div class="time">{{ comment.create_date }}</div>
-                                            <div class="description">
-                                                {{ comment.text }}
+                                            <div class="details">
+                                                <h5 class="name">{{ comment.user.username }}</h5>
+                                                <div class="time">{{ comment.create_date }}</div>
+                                                <div class="description">
+                                                    {{ comment.text }}
+                                                    {% if user.is_authenticated %}
+                                                        {% if comment.user == user %}
+                                                            <a href="{% url 'blog:delete_comment' comment.id %}">دیلیت</a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    <hr>
+                                                </div>
                                             </div>
-                                        </div>
                                     {% endfor %}
+                                        {% else %}
+                                            <p>دیدگاهی ثبت نشده است.</p>
+                                    {% endif %}
+
 								</div>
 							</div>
 						</div>
-                        {% if messeages %}
-                                    {% for msg in  messages %}
-                                        <p>{{ msg }}</p>
-                                    {% endfor %}
-                        {% endif %}
-						<form action="{% url 'blog:comments_create' post.pk %}" class="row" method="POST">
-                            {% csrf_token %}
-							<div class="col-md-12">
-								<h3 class="title">ارسال دیدگاه جدید</h3>
-
-							</div>
-							<div class="form-group col-md-12">
-								<label for="message">دیدگاه <span class="required"></span></label>
-								<textarea class="form-control" name="message"
-									placeholder="دیگاه خود را بنویسید ..."></textarea>
-							</div>
-							<div class="form-group col-md-12">
-								<button class="btn btn-primary float-right">ارسال دیدگاه</button>
-							</div>
-						</form>
+                        {% if user.is_authenticated %}
+                            <form  class="row" method="POST">
+                                {% csrf_token %}
+                                <div class="col-md-12">
+                                    <h3 class="title" id="comment_new">ارسال دیدگاه جدید</h3>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="message">دیدگاه <span class="required"></span></label>
+                                    <textarea class="form-control" name="text"
+                                        placeholder="دیگاه خود را بنویسید ..."></textarea>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <button class="btn btn-primary float-right">ارسال دیدگاه</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <p class="title">برای ثبت کامنت ابتدا باید وارد شوید.</p>
+                    {% endif %}
 					</div>
 				</div>
 			</div>

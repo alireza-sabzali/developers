@@ -11,7 +11,6 @@
 				<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
 					<div class="headline">
 							<div class="item">
-								<a href="#">لورم ایپسوم متن ساختگی با تولید سادگی </a>
 							</div>
 						</div>
 					</div>
@@ -47,8 +46,19 @@
 										</div>
 										<div class="time">{{ post.create_date }}</div>
 									</div>
-									<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
-									<p>
+									<h1>
+                                        <a href="{{ post.get_absolute_url }}">
+                                            {{ post.title }}
+                                        </a>
+                                        {% if user.is_authenticated %}
+                                            {% if post.owner == user %}
+                                                <a href="{% url 'blog:delete_post' post.id %}" style="color: dodgerblue">
+                                                    دیلیت
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </h1>
+									<p style="text-align: justify">
 										{{ post.text|truncatewords:100 }}
 									</p>
 									<footer>
@@ -62,9 +72,7 @@
 						</article>
                 {% endfor %}
 						<div class="col-md-12 text-center d-flex justify-content-center">
-							<ul class="pagination">
                                 {% include "blog/pagination.html" with page=posts %}
-							</ul>
 						</div>
 					</div>
 				</div>

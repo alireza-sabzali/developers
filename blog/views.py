@@ -9,7 +9,7 @@ from django.contrib import messages
 
 def category_detail(request, name):
     category = get_object_or_404(Category, name=name)
-    category_list    = category.posts.all()
+    category_list = category.posts.all()
     paginator = Paginator(category_list, 3)
     page = request.GET.get('page')
     try:
@@ -27,9 +27,9 @@ def category_detail(request, name):
 
 
 def index(request):
-    object_list     = Post.objects.all()
-    paginator       = Paginator(object_list, 3)
-    page            = request.GET.get('page')
+    object_list = Post.objects.all()
+    paginator = Paginator(object_list, 3)
+    page = request.GET.get('page')
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -43,37 +43,33 @@ def index(request):
     return render(request, 'blog/index.html', context)
 
 
-def post_detail(request, slug):
-    posts = Post.objects.order_by('-create_date')[:3]
-    post = get_object_or_404(Post, slug=slug)
-    comments = post.comments.all()
-    entries = post.entries.all()
-    return render(request, 'blog/post-detail.html', {'posts': posts, 'post': post,
-                                                     'entries': entries, 'comments': comments, })
-
-
-@require_POST
-@login_required
-def comments_create(request, pk):
+def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    comments = post.comments.all()
+    form = CommentForm()
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             inst = form.save(commit=False)
-            inst.post = post
-            inst.user = request.user
+            inst.post, inst.user = post, request.user
             inst.save()
-            messages.success(request, 'کامنت شما ثبت شد.')
-            return redirect("blog:post-detail", args=[post.slug])
-        messages.error(request, 'خظا در ثبت کامنت.')
-        return redirect("blog:post-detail", args=[post.slug])
+            return redirect('blog:post-detail', pk=pk)
+    return render(request, 'blog/post-detail.html', {'post': post, 'comments': comments, 'form': form, })
 
 
-def post_search(request):
-    if 'q' in request.GET:
-        form = SearchForm(request.GET)
-        query = request.GET.get('q')
-        if form.is_valid():
-            posts = Post.objects.filter(title__icontains=query)
-            return render(request, 'blog/search.html', {'posts': posts})
-    return render(request, 'blog/search.html')
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comments, pk=comment_id)
+    if comment.user == request.user:
+        comment.delete()
+        return redirect('blog:index')
+    return redirect('blog:index')
+
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if post.owner == request.user:
+        post.delete()
+        return redirect('blog:index')
+    return redirect('blog:index')
