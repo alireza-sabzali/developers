@@ -21,6 +21,7 @@ def category_detail(request, name):
     context = {
         'category': category,
         'posts': posts,
+        'page': page
     }
     return render(request, 'blog/category-detail.html', context)
 
@@ -37,6 +38,7 @@ def index(request):
         posts = paginator.page(paginator.num_pages)
     context = {
         'posts': posts,
+        'page': page
     }
     return render(request, 'blog/index.html', context)
 

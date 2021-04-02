@@ -1,0 +1,7 @@
+{% if page.has_previous %}
+<li class="prev"><a href="?page={{ page.previous_page_number }}"><i class="ion-ios-arrow-right"></i></a></li>
+{% endif %}
+{{ page.number }} of {{ page.paginator.num_pages }}
+{% if page.has_next %}
+<li class="next"><a href="?page={{ page.next_page_number }}"><i class="ion-ios-arrow-left"></i></a></li>
+{% endif %}
