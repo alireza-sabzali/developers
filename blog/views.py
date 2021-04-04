@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Post, Entry, Comments
+from .models import Category, Post, Comments
 from .forms import CommentForm, SearchForm
-from django.views.decorators.http import require_POST
 from django.contrib import messages
 
 
@@ -27,7 +26,7 @@ def category_detail(request, name):
 
 
 def index(request):
-    object_list = Post.objects.all()
+    object_list = Post.published.all()
     paginator = Paginator(object_list, 3)
     page = request.GET.get('page')
     try:
@@ -60,7 +59,7 @@ def post_detail(request, pk):
 @login_required
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comments, pk=comment_id)
-    if comment.user == request.user:
+    if comment.user == request.user or request.user.is_superuser:
         comment.delete()
         return redirect('blog:index')
     return redirect('blog:index')
@@ -69,7 +68,7 @@ def delete_comment(request, comment_id):
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    if post.owner == request.user:
+    if post.owner == request.user or request.user.is_superuser:
         post.delete()
         return redirect('blog:index')
     return redirect('blog:index')

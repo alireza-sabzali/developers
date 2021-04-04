@@ -1,6 +1,18 @@
 {% extends 'blog/base.html' %}
-{% block body %}
-                    {% for post in posts %}
+{% load static %}
+    {% block title %}
+        خانه
+    {% endblock title %}
+
+    {% block body %}
+        <section class="home">
+		<div class="container">
+			<div class="row">
+					<div class="line transparent little"></div>
+					<div class="line top">
+						<div>پست ها</div>
+					</div>
+                {% for post in posts %}
                     <div class="row">
 						<article class="col-md-12 article-list">
 							<div class="inner">
@@ -10,11 +22,27 @@
 									</a>
 								</figure>
 								<div class="details">
-									<div class="detail">}
+									<div class="detail">
+										<div class="category">
+											<a href="{% url 'blog:category-detail' post.category.name %}">
+                                                {{ post.category }}
+                                            </a>
+										</div>
 										<div class="time">{{ post.create_date }}</div>
 									</div>
-									<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
-									<p>
+									<h1>
+                                        <a href="{{ post.get_absolute_url }}">
+                                            {{ post.title }}
+                                        </a>
+                                        {% if user.is_authenticated %}
+                                            {% if post.owner == user %}
+                                                <a href="{% url 'blog:delete_post' post.id %}" style="color: dodgerblue">
+                                                    دیلیت
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </h1>
+									<p style="text-align: justify">
 										{{ post.text|truncatewords:100 }}
 									</p>
 									<footer>
@@ -28,14 +56,11 @@
 						</article>
                 {% endfor %}
 						<div class="col-md-12 text-center d-flex justify-content-center">
-							<ul class="pagination">
-                                {% if page.has_previous %}
-                                    <li class="prev"><a href="?page={{ page.previous_page_number }}"><i class="ion-ios-arrow-right"></i></a></li>
-                                {% endif %}
-                                    {{ page.number }} of {{ page.paginator.num_pages }}
-                                {% if page.has_next %}
-                                    <li class="next"><a href="?page={{ page.next_page_number }}"><i class="ion-ios-arrow-left"></i></a></li>
-                                {% endif %}
-							</ul>
+                                {% include "blog/pagination.html" with page=posts %}
 						</div>
-{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    {% endblock body %}
