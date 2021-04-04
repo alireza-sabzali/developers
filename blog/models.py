@@ -10,7 +10,13 @@ class Category(models.Model):
         return self.name
 
 
+class PublishManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishManager, self).get_queryset().filter(status='published')
+
+
 class Post(models.Model):
+    STATUS_CHOICE = (('draft', 'پیش نویس',), ('published', 'منتشر شده',))
     owner       = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     category    = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
     title       = models.CharField(max_length=100, blank=False, null=False)
@@ -19,6 +25,10 @@ class Post(models.Model):
     image       = models.ImageField(upload_to='post-images')
     create_date = models.DateField(auto_now_add=True)
     update_time = models.DateField(auto_now=True)
+    status      = models.CharField(max_length=10, choices=STATUS_CHOICE, default='draft')
+
+    objects     = models.Manager()
+    published   = PublishManager()
 
     def get_absolute_url(self):
         return reverse('blog:post-detail', args=[self.id])
