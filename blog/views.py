@@ -61,8 +61,8 @@ def delete_comment(request, comment_id):
     comment = get_object_or_404(Comments, pk=comment_id)
     if comment.user == request.user or request.user.is_superuser:
         comment.delete()
-        return redirect('blog:index')
-    return redirect('blog:index')
+        return redirect('blog:post-detail', pk=comment.post.id)
+    return redirect('blog:index', pk=comment.post.id)
 
 
 @login_required
